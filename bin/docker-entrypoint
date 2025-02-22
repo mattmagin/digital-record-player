@@ -6,9 +6,17 @@ if [ -z "${LD_PRELOAD+x}" ]; then
     export LD_PRELOAD
 fi
 
-# If running the rails server then create or migrate existing database
-if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
+# TODO: fix 
+# # If running the rails server then create or migrate existing database
+# if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
+#   ./bin/rails db:prepare
+# fi
+
+if ! rake db:version &>/dev/null; then
+  echo "Database not found, creating..."
+  rake db:create
+  rake db:migrate
 fi
+
 
 exec "${@}"

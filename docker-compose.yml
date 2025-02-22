@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:17.4
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  rails:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - "./:/var/www"
+    environment:
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - RAILS_ENV=development
+    depends_on:
+      - db
