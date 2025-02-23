@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  uri: MyString
+  record_type: MyString
+
+two:
+  uri: MyString
+  record_type: MyString
