@@ -1,0 +1,23 @@
+<h1>Spotify Records</h1>
+
+<ul>
+    <% @spotify_records.each do |record| %>
+        <li>
+            <%= record.uri %> | <%= record.record_type %>
+        </li>
+    <% end %>
+</ul>
+
+<%= form_with do |form| %>
+    <div>
+        <%= form.label :uri %>
+        <%= form.text_field :uri %>
+    </div>
+
+    <div>
+        <%= form.label :record_type %>
+        <%= form.text_field :record_type %>
+    </div>
+
+    <%= form.submit "Add Record" %>
+<% end %>
