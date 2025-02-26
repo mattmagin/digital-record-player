@@ -1,0 +1,27 @@
+<h1>Physical Tags</h1>
+
+<ul>
+    <% @physical_tags.each do |tag| %>
+        <li>
+            <%= tag.tag_code %> | <%= tag.identifier | tag.spotify_record_id %>
+        </li>
+    <% end %>
+</ul>
+
+<%= form_with do |form| %>
+    <div>
+        <%= form.label :tag_code %>
+        <%= form.text_field :tag_code %>
+    </div>
+
+    <div>
+        <%= form.label :identifier %>
+        <%= form.text_field :identifier %>
+    </div>
+
+    <div>
+        <%= form.select :spotify_record_uri, @spotify_records.pluck(:uri) %>
+    </div>
+
+    <%= form.submit "Add Tag" %>
+<% end %>
