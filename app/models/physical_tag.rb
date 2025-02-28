@@ -3,4 +3,8 @@ class PhysicalTag < ApplicationRecord
 
   validates :tag_code, presence: true
   validates :identifier, presence: true
+
+  def get_linked_spotify_record
+    spotify_record
+  end
 end

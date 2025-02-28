@@ -1,6 +1,11 @@
 # lib/socket_server.rb
 require 'socket'
 
+# {
+  # tag_code: 11111,
+  # client_location: "kitchen"
+# }
+
 class SocketServer
   def initialize(port)
     @port = port
@@ -28,32 +33,26 @@ class SocketServer
 
   private
 
+
+  # TODO: FIX
+  # rails_1  | Error handling client: Broken pipe
+  # rails_1  | Client connection closed
   def handle_client(client)
     begin
       puts "Client connected: #{client.peeraddr.inspect}"
       loop do
-        data = client.recv(1024) # Receive up to 1024 bytes
-        break if data.empty?
-
-        puts "Received: #{data.inspect}"
-
-        # Process the data (e.g., parse a command, update a database)
-        response = process_data(data)
-
-        client.puts response # Send a response back to the client
+        data = client.recv(2048) # Receive up to 2048 bytes
+        MusicRequest.new(data)
+        
+        client.puts "processing request" # Send a response back to the client
       end
     rescue EOFError
-      puts "Client disconnected abruptly"
+      # puts "Client disconnected abruptly"
     rescue => e
-      puts "Error handling client: #{e.message}"
+      # puts "Error handling client: #{e.message}"
     ensure
       client.close
-      puts "Client connection closed"
+      # puts "Client connection closed"
     end
-  end
-
-  def process_data(data)
-    # Replace this with your actual data processing logic
-    "Echo: #{data}"
   end
 end

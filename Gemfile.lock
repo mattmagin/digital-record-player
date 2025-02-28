@@ -107,6 +107,7 @@ GEM
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
+    fiddle (1.1.6)
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
@@ -201,6 +202,7 @@ GEM
     public_suffix (6.0.1)
     puma (6.6.0)
       nio4r (~> 2.0)
+    pycall (1.5.2)
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.10)
@@ -359,12 +361,14 @@ DEPENDENCIES
   brakeman
   capybara
   debug
+  fiddle
   importmap-rails
   jbuilder
   kamal
   pg (~> 1.1)
   propshaft
   puma (>= 5.0)
+  pycall (~> 1.5.2)
   rails (~> 8.0.1)
   rubocop-rails-omakase
   selenium-webdriver

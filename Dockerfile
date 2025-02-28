@@ -28,6 +28,17 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libjemalloc2 libvips postgresql-client && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
+# Install Python 3 and pip
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y python3 python3-pip libpython3-dev && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+ENV PYTHON_VERSION=3.11
+ENV PYTHON=/usr/bin/python3
+
+RUN pip3 install soco --break-system-packages
+RUN pip3 install requests --break-system-packages
+
 # Throw-away build stage to reduce size of final image
 FROM base AS build
 

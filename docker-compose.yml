@@ -7,16 +7,24 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+  communication:
+    image: mattmagin/node-sonos-http-api
+    ports:
+      - 3003:3003
+    environment:
+      - NODE_ENV=production
+      - PORT=${COMMUNICATION_PORT}
   rails:
     build: .
+    volumes:
+      - "./:/var/www"
     ports:
       - 3000:3000
       - 3001:3001
-    volumes:
-      - "./:/var/www"
     environment:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - RAILS_ENV=development
     depends_on:
       - db
+      - communication
