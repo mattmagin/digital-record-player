@@ -15,19 +15,20 @@ class MusicRequest
     def process
         begin
             spotify_record = get_tag.get_linked_spotify_record()
-            player = SonosDevice.new(@player_name)
-            request = SpotifyRequest.new(spotify_record.uri, spotify_record.record_type).get_share_link()
             
-            player.queue_request(request)
-            player.play()
+            request_url = spotify_record.request_url()
+
+            device = SonosDevice.new(@player_name)
+            device.play_request(request_url)
         rescue => e
             puts e
         end
-        
+        # http://localhost:5005/Kitchen1/spotify/now/spotify:track:4LI1ykYGFCcXPWkrpcU7hn
     end
 
     private
 
+    # Right place for this?
     def get_tag
         PhysicalTag.find_by(tag_code: @tag_code)
     end

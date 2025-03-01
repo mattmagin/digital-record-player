@@ -9,8 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
   communication:
     image: mattmagin/node-sonos-http-api
-    ports:
-      - 3003:3003
+    network_mode: host # Changed from networks: my_network
     environment:
       - NODE_ENV=production
       - PORT=${COMMUNICATION_PORT}

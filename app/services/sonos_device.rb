@@ -1,43 +1,47 @@
-require 'pycall'
-require 'pycall/import'
-
-include PyCall::Import
-
-pyimport :soco
-sonosControlModule = PyCall.import_module("soco")
-ShareLinkPlugin = PyCall.import_module('soco.plugins.sharelink').ShareLinkPlugin
-DiscoveryPlugin = PyCall.import_module('soco.discovery')
-
+# is this a service?? 
 class SonosDevice
-    def initialize(name)
-        @device = DiscoveryPlugin.by_name(name)
-        @share_link = ShareLinkPlugin.new(@device)
-
-        @device
+    def initialize(device_name)
+        @device_name = device_name
+    end
+    
+    # TODO: update so it can play / pause
+    def playpause
+        send_command("playpause")
     end
 
-    def clear_queue
-        @device.clear_queue();
+    def next_track
+        send_command("next")
     end
 
-    def play
-        @device.play();
+    def previous_track
+        send_command("previous")
     end
 
-    def isValid(uri)
-        @share_link.is_share_link(uri)
+    def increaseVolume
+        send_command("groupVolume/+5")
     end
- 
-    def queue_request(request)
-        begin
-            puts @device
-            @device.clear_queue()
-            share_link = ShareLinkPlugin.new(@device)
-            puts share_link
-            
-            share_link.add_share_link_to_queue(request, 2) 
-        rescue => e
-            puts e
-        end
+
+    def decreaseVolume
+        send_command("groupVolume/-5")
+    end
+
+    def play_request(request_url)
+        send_command(request_url)
+    end
+
+    private
+    
+    # Can you memoise here??? is that needed
+    def send_command(action)
+        # ADD FARADAY HERE RATHER THAN RETURN
+        # TODO: handle response
+        puts "#{base_url()}#{action}"
+        response = Faraday.get("#{base_url()}#{action}")
+    end
+
+    def base_url
+        # TODO: add default port
+        # localhost may not work on the server?
+        "http://localhost:#{ENV["COMMUNICATION_PORT"]}/#{@device_name}/"
     end
 end

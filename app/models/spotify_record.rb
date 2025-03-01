@@ -3,4 +3,8 @@ class SpotifyRecord < ApplicationRecord
 
     validates :uri, presence: true
     validates :record_type, presence: true
+
+    def request_url
+        "spotify/now/spotify:#{self.record_type}:#{self.uri}"
+    end
 end
